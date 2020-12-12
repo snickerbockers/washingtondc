@@ -119,6 +119,7 @@ pvr2_reg_do_write(struct pvr2 *pvr2, unsigned addr, uint32_t val) {
     PVR2_REG_WRITE_CASE(PVR2_TA_ALLOC_CTRL);
     PVR2_REG_WRITE_CASE(PVR2_TA_NEXT_OPB_INIT);
     PVR2_REG_WRITE_CASE(PVR2_ID);
+    PVR2_REG_WRITE_CASE(PVR2_UNKNOWN_8090);
     case PVR2_REV:
     case PVR2_SPG_STATUS:
     case PVR2_TA_VERTBUF_POS:

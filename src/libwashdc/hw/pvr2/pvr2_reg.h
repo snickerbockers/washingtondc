@@ -130,6 +130,10 @@ uint32_t get_ta_yuv_tex_ctrl(struct pvr2 *pvr2);
 #define PVR2_FPU_PERP_VAL PVR2_REG_IDX(0x5f8084)
 #define PVR2_ISP_BACKGND_D PVR2_REG_IDX(0x5f8088)
 #define PVR2_ISP_BACKGND_T PVR2_REG_IDX(0x5f808c)
+
+// unknown/undocumented register mislabeled as ISP_FEED_CFG in some docs
+#define PVR2_UNKNOWN_8090 PVR2_REG_IDX(0x5f8090)
+
 #define PVR2_ISP_FEED_CFG PVR2_REG_IDX(0x5f8098)
 #define PVR2_FOG_CLAMP_MAX PVR2_REG_IDX(0x5f80bc)
 #define PVR2_FOG_CLAMP_MIN PVR2_REG_IDX(0x5f80c0)
