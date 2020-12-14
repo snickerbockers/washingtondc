@@ -623,6 +623,15 @@ aica_sys_reg_post_write(struct aica *aica, unsigned idx, bool from_sh4) {
             RAISE_ERROR(ERROR_UNIMPLEMENTED);
         }
         break;
+    case AICA_MIDI_INPUT:
+        /*
+         * I *think* this isn't even on retail systems?
+         * some of the 2k sports games want to write 0 to this for some dumb
+         * reason.
+         */
+        memcpy(&val, aica->sys_reg + (AICA_MIDI_INPUT/4), sizeof(val));
+        LOG_DBG("Writing %08X to AICA_MIDI_INPUT\n", (unsigned)val);
+        break;
     default:
 #ifdef AICA_PEDANTIC
         error_set_value(aica->sys_reg[idx]);
