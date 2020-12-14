@@ -739,21 +739,13 @@ static void gdrom_input_read_packet(struct gdrom_ctxt *gdrom) {
     unsigned fad_offs = 0;
     while (trans_len--) {
         struct gdrom_bufq_node *node =
-            (struct gdrom_bufq_node*)malloc(sizeof(struct gdrom_bufq_node));
+            (struct gdrom_bufq_node*)calloc(1, sizeof(struct gdrom_bufq_node));
 
         if (!node)
             RAISE_ERROR(ERROR_FAILED_ALLOC);
 
-        if (mount_read_sectors(node->dat, start_addr + fad_offs++, 1) < 0) {
+        if (mount_read_sectors(node->dat, start_addr + fad_offs++, 1) < 0)
             GDROM_ERROR("GD-ROM failed to read fad %u\n", fad_offs);
-
-            free(node);
-
-            gdrom->error_reg.sense_key = SENSE_KEY_ILLEGAL_REQ;
-            gdrom->stat_reg.check = true;
-            gdrom_state_transition(gdrom, GDROM_STATE_NORM);
-            return;
-        }
 
         node->idx = 0;
         node->len = CDROM_FRAME_DATA_SIZE;
@@ -1420,8 +1412,10 @@ enum gdrom_disc_state gdrom_get_drive_state(void) {
 
 void gdrom_start_dma(struct gdrom_ctxt *gdrom) {
     if (gdrom->dma_start_reg) {
-        if (gdrom->state != GDROM_STATE_DMA_WAITING)
+        if (gdrom->state != GDROM_STATE_DMA_WAITING) {
+            GDROM_ERROR("current GD-ROM state is %d\n", gdrom->state);
             RAISE_ERROR(ERROR_UNIMPLEMENTED);
+        }
 
         gdrom->stat_reg.drq = false;
         gdrom->stat_reg.bsy = true;
